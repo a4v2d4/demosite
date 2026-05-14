@@ -31,28 +31,6 @@ const AaronVanDoren = () => {
       style={{ color: textColor }}
     >
 
-      {/* Contact Mail Button */}
-      <div className="absolute top-8 left-8">
-        <a
-          href="mailto:aaronvandoren6@gmail.com"
-          aria-label="Send email to Aaron Van Doren"
-          className="flex items-center gap-2 transition-opacity duration-200 hover:opacity-70"
-          style={{ color: accentColor }}
-        >
-          <Mail className="w-5 h-5" />
-          <span
-            style={{
-              fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: '0.85rem',
-              letterSpacing: '0.12em',
-              fontWeight: 400,
-            }}
-          >
-            Contact
-          </span>
-        </a>
-      </div>
-
       {/* Upper Right Toggle Area */}
       <div className="absolute top-8 right-8 flex items-center gap-2">
         {darkMode ? (
@@ -75,8 +53,8 @@ const AaronVanDoren = () => {
         </button>
       </div>
 
-      {/* Centered Name Animation */}
-      <div className="flex justify-center items-center h-screen">
+      {/* Centered Name + Contact */}
+      <div className="flex flex-col justify-center items-center h-screen">
         <h1
           className="flex gap-4"
           style={{
@@ -107,6 +85,28 @@ const AaronVanDoren = () => {
             <div className="w-[2px] animate-cursor-last opacity-0" style={{ height: '0.85em', backgroundColor: accentColor, marginLeft: '3px' }}></div>
           </div>
         </h1>
+
+        {/* Contact link — fades in after name animation completes */}
+        <a
+          href="mailto:aaronvandoren6@gmail.com"
+          aria-label="Send email to Aaron Van Doren"
+          className="contact-link animate-contact flex items-center gap-2 opacity-0 mt-8"
+          style={{ color: accentColor }}
+        >
+          <Mail className="contact-icon w-4 h-4" />
+          <span
+            className="contact-label"
+            style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: '0.8rem',
+              letterSpacing: '0.2em',
+              fontWeight: 500,
+              textTransform: 'uppercase',
+            }}
+          >
+            Contact
+          </span>
+        </a>
       </div>
 
       <style>{`
@@ -146,6 +146,54 @@ const AaronVanDoren = () => {
 
         .animate-color-reset {
           animation: colorReset 0.5s ease-out forwards 3.8s;
+        }
+
+        .animate-contact {
+          animation: fadeIn 0.8s ease-out forwards 4.2s;
+        }
+
+        @keyframes fadeIn {
+          to { opacity: 1; }
+        }
+
+        .contact-link {
+          position: relative;
+          transition: transform 0.25s ease, opacity 0.25s ease;
+          text-decoration: none;
+          cursor: pointer;
+          user-select: none;
+        }
+
+        .contact-link:hover {
+          transform: translateY(-2px);
+          opacity: 0.85;
+        }
+
+        .contact-link .contact-icon {
+          transition: transform 0.25s ease;
+        }
+
+        .contact-link:hover .contact-icon {
+          transform: translateX(-3px) rotate(-8deg);
+        }
+
+        .contact-label {
+          position: relative;
+        }
+
+        .contact-label::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: -2px;
+          width: 0;
+          height: 1px;
+          background: currentColor;
+          transition: width 0.3s ease;
+        }
+
+        .contact-link:hover .contact-label::after {
+          width: 100%;
         }
       `}</style>
     </div>
