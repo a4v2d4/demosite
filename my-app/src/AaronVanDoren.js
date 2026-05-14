@@ -4,7 +4,7 @@ import { Sun, Moon, Mail } from 'lucide-react';
 const DARK_BG   = '#0d0b09';
 const LIGHT_BG  = '#faf7f2';
 const ACCENT_DARK  = '#c9a84c';
-const ACCENT_LIGHT = '#9a6f24';
+const ACCENT_LIGHT = '#c9a84c';
 
 const AaronVanDoren = () => {
   const [darkMode, setDarkMode] = useState(
@@ -28,7 +28,7 @@ const AaronVanDoren = () => {
   return (
     <div
       className="min-h-screen transition-colors duration-500"
-      style={{ color: textColor }}
+      style={{ color: textColor, '--accent': accentColor, '--text-c': textColor }}
     >
 
       {/* Upper Right Toggle Area */}
@@ -56,33 +56,36 @@ const AaronVanDoren = () => {
       {/* Centered Name + Contact */}
       <div className="flex flex-col justify-center items-center h-screen">
         <h1
-          className="flex gap-4"
+          className="flex items-center gap-4"
           style={{
             fontFamily: "'Cormorant Garamond', Georgia, serif",
-            fontSize: 'clamp(3rem, 8vw, 5.5rem)',
+            fontSize: 'clamp(2rem, 8vw, 5.5rem)',
             fontWeight: 300,
             letterSpacing: '0.15em',
           }}
         >
           {/* Aaron */}
-          <div className="flex items-center">
-            <span className="animate-color-reset" style={{ color: accentColor }}>A</span>
-            <span className="inline-block overflow-hidden whitespace-nowrap animate-reveal-first opacity-0 max-w-0">aron</span>
+          <div className="flex items-center aaron-name-wrapper">
+            <span style={{ color: accentColor }}>A</span>
+            <span className="inline-block overflow-hidden whitespace-nowrap opacity-0 max-w-0 shimmer-text animate-reveal-shimmer-first">aron</span>
             <div className="w-[2px] animate-cursor-first opacity-0" style={{ height: '0.85em', backgroundColor: accentColor, marginLeft: '3px' }}></div>
           </div>
 
-          {/* Van */}
-          <div className="flex items-center">
-            <span className="animate-color-reset" style={{ color: accentColor }}>V</span>
-            <span className="inline-block overflow-hidden whitespace-nowrap animate-reveal-last opacity-0 max-w-0">an</span>
-            <div className="w-[2px] animate-cursor-last opacity-0" style={{ height: '0.85em', backgroundColor: accentColor, marginLeft: '3px' }}></div>
-          </div>
+          {/* Van Doren */}
+          <div className="flex gap-4 vandoren-wrapper">
+            {/* Van */}
+            <div className="flex items-center">
+              <span style={{ color: accentColor }}>V</span>
+              <span className="inline-block overflow-hidden whitespace-nowrap opacity-0 max-w-0 shimmer-text animate-reveal-shimmer-last">an</span>
+              <div className="w-[2px] animate-cursor-last opacity-0" style={{ height: '0.85em', backgroundColor: accentColor, marginLeft: '3px' }}></div>
+            </div>
 
-          {/* Doren */}
-          <div className="flex items-center">
-            <span className="animate-color-reset" style={{ color: accentColor }}>D</span>
-            <span className="inline-block overflow-hidden whitespace-nowrap animate-reveal-last opacity-0 max-w-0">oren</span>
-            <div className="w-[2px] animate-cursor-last opacity-0" style={{ height: '0.85em', backgroundColor: accentColor, marginLeft: '3px' }}></div>
+            {/* Doren */}
+            <div className="flex items-center">
+              <span style={{ color: accentColor }}>D</span>
+              <span className="inline-block overflow-hidden whitespace-nowrap opacity-0 max-w-0 shimmer-text animate-reveal-shimmer-last">oren</span>
+              <div className="w-[2px] animate-cursor-last opacity-0" style={{ height: '0.85em', backgroundColor: accentColor, marginLeft: '3px' }}></div>
+            </div>
           </div>
         </h1>
 
@@ -91,21 +94,22 @@ const AaronVanDoren = () => {
           href="mailto:aaronvandoren6@gmail.com"
           aria-label="Send email to Aaron Van Doren"
           className="contact-link animate-contact flex items-center gap-2 opacity-0 mt-8"
-          style={{ color: accentColor }}
+          style={{ color: textColor }}
         >
           <Mail className="contact-icon w-4 h-4" />
           <span
             className="contact-label"
             style={{
               fontFamily: "'Cormorant Garamond', Georgia, serif",
-              fontSize: '0.8rem',
+              fontSize: 'clamp(0.76rem, 2.8vw, 0.9rem)', // responsive: smaller on mobile, 0.9rem max
               letterSpacing: '0.2em',
-              fontWeight: 500,
+              fontWeight: 700,
               textTransform: 'uppercase',
             }}
           >
             Contact
           </span>
+   
         </a>
       </div>
 
@@ -113,10 +117,6 @@ const AaronVanDoren = () => {
         @keyframes reveal {
           from { max-width: 0; opacity: 0; }
           to { max-width: 300px; opacity: 1; }
-        }
-
-        @keyframes colorReset {
-          to { color: inherit; }
         }
 
         @keyframes blink {
@@ -128,12 +128,43 @@ const AaronVanDoren = () => {
           5%, 95% { opacity: 1; }
         }
 
-        .animate-reveal-first {
-          animation: reveal 1s ease-out forwards 0.5s;
+        @keyframes shimmerSweep {
+          from { background-position: 100% center; }
+          to   { background-position: 0% center; }
         }
 
-        .animate-reveal-last {
-          animation: reveal 1s ease-out forwards 2.2s;
+        @keyframes toSolidGold {
+          from { color: transparent; }
+          to   { color: var(--accent); }
+        }
+
+        .shimmer-text {
+          color: transparent;
+          background: linear-gradient(
+            90deg,
+            var(--accent)  0%,
+            var(--accent)  22%,
+            #fff8dc        33%,
+            var(--accent)  44%,
+            var(--text-c)  62%,
+            var(--text-c) 100%
+          );
+          background-size: 300% 100%;
+          background-position: 100% center;
+          -webkit-background-clip: text;
+          background-clip: text;
+        }
+
+        .animate-reveal-shimmer-first {
+          animation: reveal 1s ease-out forwards 0.5s,
+                     shimmerSweep 0.85s ease-in-out both 3.4s,
+                     toSolidGold 0.1s ease-out both 4.25s;
+        }
+
+        .animate-reveal-shimmer-last {
+          animation: reveal 1s ease-out forwards 2.2s,
+                     shimmerSweep 0.85s ease-in-out both 3.4s,
+                     toSolidGold 0.1s ease-out both 4.25s;
         }
 
         .animate-cursor-first {
@@ -142,10 +173,6 @@ const AaronVanDoren = () => {
 
         .animate-cursor-last {
           animation: blink 0.7s infinite, showHideCursor 1.3s forwards 2.0s;
-        }
-
-        .animate-color-reset {
-          animation: colorReset 0.5s ease-out forwards 3.8s;
         }
 
         .animate-contact {
